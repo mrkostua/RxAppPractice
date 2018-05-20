@@ -3,12 +3,20 @@ package com.example.user.rxapp
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import com.example.user.rxapp.data.TasksDataHelper
+import com.example.user.rxapp.data.TasksDataObject
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
+import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
@@ -49,8 +57,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        emitData()
-        emitBicycleData()
 
     }
 
@@ -62,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                 .filter {
                     it.toLowerCase().startsWith("b")
                 }.subscribeWith(bikesObserver)
+
         val myBikesObservable = bikesObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter {
@@ -93,4 +100,34 @@ class MainActivity : AppCompatActivity() {
         compositeDisposable.clear()
     }
 
+    fun bLetsStartClickListener(view: View) {
+        val rand = Random()
+        view.visibility = View.GONE
+        pbWaitForTask.visibility = View.VISIBLE
+
+        val observable = Single.just(TasksDataHelper.getCurrentDayTaskData())
+        compositeDisposable.add(observable.subscribeOn(Schedulers.computation())
+                .map {
+                    it.eatTimes = 5
+                    it
+                }
+                .delay(10, TimeUnit.SECONDS, Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<TasksDataObject>() {
+                    override fun onSuccess(t: TasksDataObject) {
+                        displayTask(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                    }
+                }))
+
+    }
+
+    private fun displayTask(task: TasksDataObject) {
+        pbWaitForTask.visibility = View.GONE
+        tvMainData.visibility = View.VISIBLE
+        tvMainData.text = task.toString()
+
+    }
 }
