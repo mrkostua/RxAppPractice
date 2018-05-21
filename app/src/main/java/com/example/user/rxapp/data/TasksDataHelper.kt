@@ -6,8 +6,9 @@ package com.example.user.rxapp.data
 class TasksDataHelper {
     companion object {
 
-        fun getCurrentDayTaskData(): TasksDataObject {
-            return TasksDataObject(3, 1, 2, 22)
+        fun getCurrentDayTaskData(): TaskDataObject {
+            TODO()
+            //return TaskDataObject(0,3, 1, 2, 22)
         }
     }
 }
