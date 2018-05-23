@@ -1,7 +1,10 @@
 package com.example.user.rxapp.displayTasks
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.View
 import com.example.user.rxapp.R
 import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
@@ -17,14 +20,34 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
     @Inject
     lateinit var presenter: TasksActivityContract.Presenter
 
+    private val handlerUpdateProgressBar = 5
+    private val handler = Handler {
+        if (it.what == handlerUpdateProgressBar) {
+            pbTimeToRead.progress = pbTimeToRead.progress + (100 / ConstantValues.DEFAULT_DELAY_TIME_IN_SECONDS).toInt()
+
+        }
+
+        return@Handler it.arg1 == 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tasks)
+        initializeViews()
         presenter.takeView(this)
 
-        pbWaitForTask.visibility = View.VISIBLE
         presenter.displayNewestTask(ConstantValues.DEFAULT_DELAY_TIME_IN_SECONDS)
     }
+
+    private fun initializeViews() {
+        pbTimeToRead.max = 100
+        val drawableForPB = pbTimeToRead.progressDrawable.mutate()
+        drawableForPB.setColorFilter(Color.BLUE,android.graphics.PorterDuff.Mode.SRC_IN)
+        pbTimeToRead.progressDrawable = drawableForPB
+        
+    }
+
+
     //TODO delete or move to addTaskActivity
     private fun addSomeTasks() {
         presenter.addTask(SimpleTaskDO("Kiss some girl", "first choose the victim\n second perform unexpected attack", false))
@@ -43,18 +66,21 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
     }
 
     override fun displayTask(task: TaskDO) {
-        //when task will be displayed start showing progress bar for x seconds
-        //each time it will be reset
-        pbWaitForTask.visibility = View.GONE
+        pbTimeToRead.progress = 0
+        pbTimeToRead.visibility = View.VISIBLE
+
         tvTaskName.text = task.taskName
         tvTaskDescription.text = task.taskDescription
-
-        pbWaitForTask.visibility = View.VISIBLE
 
     }
 
     override fun showMainButton() {
+        pbTimeToRead.visibility = View.GONE
         startActivity(Intent(this, MainActivity::class.java))
 
+    }
+
+    override fun sendMessageWithDelay(delayInSec: Int) {
+        handler.sendMessageDelayed(Message.obtain(handler, handlerUpdateProgressBar, 0, 0), delayInSec.toLong() * 1000)
     }
 }

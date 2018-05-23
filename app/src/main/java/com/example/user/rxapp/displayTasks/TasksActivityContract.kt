@@ -17,5 +17,6 @@ interface TasksActivityContract {
     interface View{
         fun displayTask(task: TaskDO)
         fun showMainButton()
+        fun sendMessageWithDelay(delayInSec : Int)
     }
 }

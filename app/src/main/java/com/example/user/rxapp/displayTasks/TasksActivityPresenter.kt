@@ -47,6 +47,12 @@ class TasksActivityPresenter @Inject constructor(private val db: LocalDataHelper
                 }
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext {
+                    for (i in 1..delay.toInt()) {
+                        view.sendMessageWithDelay(i)
+                        Log.i(TAG, "displayNewestTask doOnNext ${it.id} + $i")
+                    }
+                }
                 .subscribeWith(object : DisposableObserver<TaskDO>() {
 
                     override fun onNext(t: TaskDO) {
