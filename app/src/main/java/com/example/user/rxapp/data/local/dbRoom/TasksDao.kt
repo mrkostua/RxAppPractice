@@ -3,7 +3,7 @@ package com.example.user.rxapp.data.local.dbRoom
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
-import io.reactivex.Flowable
+import io.reactivex.Single
 import java.util.*
 
 /**
@@ -12,10 +12,10 @@ import java.util.*
 @Dao
 interface TasksDao {
     @Query("SELECT * FROM tasks WHERE tasks.isDone = 0  ")
-    fun getAllUndoneTasks(): Flowable<List<TaskDO>>
+    fun getAllUndoneTasks(): Single<List<TaskDO>>
 
-    @Query("SELECT * FROM tasks WHERE tasks.isDone = 1 AND tasks.date BETWEEN :fromDay AND :toDay")
-    fun getAllTasksForToday(fromDay: Date, toDay: Date): Flowable<List<TaskDO>>
+    @Query("SELECT * FROM tasks WHERE tasks.isDone = 1 AND tasks.deadLineDate BETWEEN :fromDay AND :toDay")
+    fun getAllTasksForToday(fromDay: Date, toDay: Date): Single<List<TaskDO>>
 
     @Insert()
     fun addTask(taskDO: TaskDO)

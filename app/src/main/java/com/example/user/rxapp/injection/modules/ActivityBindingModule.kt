@@ -1,8 +1,8 @@
 package com.example.user.rxapp.injection.modules
 
 import com.example.user.rxapp.injection.ActivityScope
-import com.example.user.rxapp.mainScreen.MainActivity
-import com.example.user.rxapp.mainScreen.MainActivityModule
+import com.example.user.rxapp.displayTasks.TasksActivity
+import com.example.user.rxapp.displayTasks.TasksActivityModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -12,6 +12,6 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityBindingModule {
     @ActivityScope
-    @ContributesAndroidInjector(modules = [(MainActivityModule::class)])
-    public abstract fun getMainActivity(): MainActivity
+    @ContributesAndroidInjector(modules = [(TasksActivityModule::class)])
+    abstract fun getTasksActivity(): TasksActivity
 }

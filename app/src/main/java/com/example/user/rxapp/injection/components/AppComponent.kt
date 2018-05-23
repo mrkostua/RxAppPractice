@@ -1,7 +1,7 @@
 package com.example.user.rxapp.injection.components
 
 import android.app.Application
-import com.example.user.rxapp.TasksApp
+import com.example.user.rxapp.tools.TasksApp
 import com.example.user.rxapp.data.local.LocalDataHelper
 import com.example.user.rxapp.injection.modules.ActivityBindingModule
 import com.example.user.rxapp.injection.modules.AppModule

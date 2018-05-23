@@ -1,18 +1,17 @@
-package com.example.user.rxapp.mainScreen
+package com.example.user.rxapp.displayTasks
 
 import android.util.Log
 import com.example.user.rxapp.data.local.LocalDataHelper
 import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
 import com.example.user.rxapp.data.local.dbRoom.TaskDO
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Single
+import com.example.user.rxapp.tools.getNextCalendarDay
+import io.reactivex.*
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
-import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subscribers.DisposableSubscriber
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -21,10 +20,10 @@ import javax.inject.Inject
 /**
  * @author Kostiantyn Prysiazhnyi on 5/22/2018.
  */
-class MainActivityPresenter @Inject constructor(private val db: LocalDataHelper) : MainActivityContract.Presenter {
+class TasksActivityPresenter @Inject constructor(private val db: LocalDataHelper) : TasksActivityContract.Presenter {
     private val TAG = this.javaClass.simpleName
     private val compositeDisposable = CompositeDisposable()
-    private lateinit var view: MainActivityContract.View
+    private lateinit var view: TasksActivityContract.View
     private val calendar = Calendar.getInstance()
 
     init {
@@ -32,7 +31,7 @@ class MainActivityPresenter @Inject constructor(private val db: LocalDataHelper)
 
     }
 
-    override fun takeView(view: MainActivityContract.View) {
+    override fun takeView(view: TasksActivityContract.View) {
         this.view = view
     }
 
@@ -40,39 +39,36 @@ class MainActivityPresenter @Inject constructor(private val db: LocalDataHelper)
         compositeDisposable.clear()
     }
 
-    override fun displayNewestTask() {
-        Log.i(TAG, "displayNewestTask")
-        compositeDisposable.add((db.getLastTask()
-                .concatMap { Flowable.fromIterable(it) }
-                .map {
-                    it.taskDescription += "\nyou are the best"
-                    it
+    override fun displayNewestTask(delay: Long) {
+        compositeDisposable.add((db.getAllUndoneTasks()
+                .flattenAsObservable { it }
+                .concatMap {
+                    Observable.just(it).delay(delay, TimeUnit.SECONDS)
                 }
                 .subscribeOn(Schedulers.computation())
-                .delay(5, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSubscriber<TaskDO>() {
+                .subscribeWith(object : DisposableObserver<TaskDO>() {
+
+                    override fun onNext(t: TaskDO) {
+                        Log.i(TAG, "displayNewestTask onNext Yo yo ${t.id}")
+                        view.displayTask(t)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Log.i(TAG, "displayNewestTask onError : " + e.toString())
+                    }
+
                     override fun onComplete() {
                         view.showMainButton()
                         Log.i(TAG, "displayNewestTask onComplete")
-                    }
-
-                    override fun onNext(t: TaskDO?) {
-                        Log.i(TAG, "displayNewestTask onNext")
-                        if (t != null) {
-                            view.displayTask(t)
-
-                        }
-                    }
-
-                    override fun onError(t: Throwable?) {
-                        Log.i(TAG, "displayNewestTask onError : " + t.toString())
                     }
 
                 })))
     }
 
     override fun addTask(simpleTaskDO: SimpleTaskDO) {
+        Log.i(TAG, "addT")
+        calendar[Calendar.DAY_OF_WEEK] = getNextCalendarDay(calendar)
         compositeDisposable.add(Completable.fromAction {
             db.addTaskToLocalDB(TaskDO(null, simpleTaskDO.taskName, simpleTaskDO.taskDescription,
                     simpleTaskDO.isDone, Date(calendar.timeInMillis)))
