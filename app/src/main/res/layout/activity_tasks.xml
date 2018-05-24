@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Clean all dishes"
+        android:text=""
         android:textAlignment="center"
         android:theme="@style/TaskNameStyle"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,9 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:text="Clean all dishes until midnight and don't be late
-         =
-Clean all dishes until midnight and don't be late "
+        android:text=""
         android:theme="@style/TaskDescriptionBody"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

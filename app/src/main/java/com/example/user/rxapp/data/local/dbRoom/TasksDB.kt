@@ -12,7 +12,7 @@ import com.example.user.rxapp.data.Utils.DateConvertors
 /**
  * @author Kostiantyn Prysiazhnyi on 5/21/2018.
  */
-@Database(entities = [(TaskDO::class)], version = 1)
+@Database(entities = [(TaskDo::class)], version = 1)
 @TypeConverters(DateConvertors::class)
 abstract class TasksDB : RoomDatabase() {
     abstract fun tasksDao(): TasksDao

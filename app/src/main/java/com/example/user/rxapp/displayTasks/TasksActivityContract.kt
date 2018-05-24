@@ -1,7 +1,7 @@
 package com.example.user.rxapp.displayTasks
 
 import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
-import com.example.user.rxapp.data.local.dbRoom.TaskDO
+import com.example.user.rxapp.data.local.dbRoom.TaskDo
 
 /**
  * @author Kostiantyn Prysiazhnyi on 5/22/2018.
@@ -15,8 +15,10 @@ interface TasksActivityContract {
     }
 
     interface View{
-        fun displayTask(task: TaskDO)
+        fun displayTask(task: TaskDo)
         fun showMainButton()
         fun sendMessageWithDelay(delayInSec : Int)
+        fun showToast(sms : String)
+        fun showFailedSavingTaskDialog(message : String, failedTask: SimpleTaskDO)
     }
 }

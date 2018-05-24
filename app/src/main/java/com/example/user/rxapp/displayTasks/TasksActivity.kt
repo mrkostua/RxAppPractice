@@ -1,5 +1,6 @@
 package com.example.user.rxapp.displayTasks
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -8,9 +9,10 @@ import android.os.Message
 import android.view.View
 import com.example.user.rxapp.R
 import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
-import com.example.user.rxapp.data.local.dbRoom.TaskDO
+import com.example.user.rxapp.data.local.dbRoom.TaskDo
 import com.example.user.rxapp.displayMain.MainActivity
 import com.example.user.rxapp.tools.ConstantValues
+import com.example.user.rxapp.tools.DisplayingHelper
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_tasks.*
 import javax.inject.Inject
@@ -26,7 +28,6 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
             pbTimeToRead.progress = pbTimeToRead.progress + (100 / ConstantValues.DEFAULT_DELAY_TIME_IN_SECONDS).toInt()
 
         }
-
         return@Handler it.arg1 == 1
     }
 
@@ -42,9 +43,9 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
     private fun initializeViews() {
         pbTimeToRead.max = 100
         val drawableForPB = pbTimeToRead.progressDrawable.mutate()
-        drawableForPB.setColorFilter(Color.BLUE,android.graphics.PorterDuff.Mode.SRC_IN)
+        drawableForPB.setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.SRC_IN)
         pbTimeToRead.progressDrawable = drawableForPB
-        
+
     }
 
 
@@ -65,7 +66,7 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
 
     }
 
-    override fun displayTask(task: TaskDO) {
+    override fun displayTask(task: TaskDo) {
         pbTimeToRead.progress = 0
         pbTimeToRead.visibility = View.VISIBLE
 
@@ -82,5 +83,24 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
 
     override fun sendMessageWithDelay(delayInSec: Int) {
         handler.sendMessageDelayed(Message.obtain(handler, handlerUpdateProgressBar, 0, 0), delayInSec.toLong() * 1000)
+    }
+
+    override fun showToast(sms: String) {
+        DisplayingHelper.showToast(this, sms)
+    }
+
+    override fun showFailedSavingTaskDialog(message: String, failedTask: SimpleTaskDO) {
+        DisplayingHelper.showCustomAlertDialog(this, "Failed to save Task", message,
+                DialogInterface.OnClickListener { dialog, which ->
+                    when (which) {
+                        DialogInterface.BUTTON_POSITIVE -> {
+                            presenter.addTask(failedTask)
+                            dialog.dismiss()
+                        }
+                        DialogInterface.BUTTON_NEGATIVE -> {
+                            dialog.dismiss()
+                        }
+                    }
+                })
     }
 }
