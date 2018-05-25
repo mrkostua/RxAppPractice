@@ -24,12 +24,6 @@ class TasksActivityPresenter @Inject constructor(private val db: LocalDataHelper
     private val TAG = this.javaClass.simpleName
     private val compositeDisposable = CompositeDisposable()
     private lateinit var view: TasksActivityContract.View
-    private val calendar = Calendar.getInstance()
-
-    init {
-        calendar.timeInMillis = System.currentTimeMillis()
-
-    }
 
     override fun takeView(view: TasksActivityContract.View) {
         this.view = view
@@ -40,10 +34,16 @@ class TasksActivityPresenter @Inject constructor(private val db: LocalDataHelper
     }
 
     override fun displayNewestTask(delay: Long) {
+        var isFirst = true
         compositeDisposable.add((db.getAllUndoneTasks()
                 .flattenAsObservable { it }
                 .concatMap {
-                    Observable.just(it).delay(delay, TimeUnit.SECONDS)
+                    if (isFirst) {
+                        isFirst = false
+                        Observable.just(it)
+                    } else {
+                        Observable.just(it).delay(delay, TimeUnit.SECONDS)
+                    }
                 }
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -72,27 +72,4 @@ class TasksActivityPresenter @Inject constructor(private val db: LocalDataHelper
                 })))
     }
 
-    //TODO move to AddTaskActivityPresenter
-    override fun addTask(simpleTaskDO: SimpleTaskDO) {
-        calendar[Calendar.DAY_OF_WEEK] = getNextCalendarDay(calendar)
-        compositeDisposable.add(Completable.fromAction {
-            db.addTaskToLocalDB(TaskDo(null, simpleTaskDO.taskName, simpleTaskDO.taskDescription,
-                    simpleTaskDO.isDone, Date(calendar.timeInMillis)))
-        }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableCompletableObserver() {
-                    override fun onComplete() {
-                        view.showToast("Task was saved successfully")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        view.showFailedSavingTaskDialog("Some problem occurred with saving task(${simpleTaskDO.taskName}, please try again.",
-                                simpleTaskDO)
-
-                    }
-
-                }))
-
-    }
 }

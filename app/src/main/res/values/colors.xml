@@ -3,8 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorTaskName">#4150ff</color>
+    <color name="colorTaskName">#000c96</color>
     <color name="colorWhite">#ffffff</color>
-    <color name="colorTaskBody">#b9a5a5</color> />
+    <color name="colorTaskBodyText">#e7dfdc</color>
     <color name="colorTasksActivityBackground">#424242</color>
+    <color name="colorTasksActivityPB">#484646</color>
+    <color name="timeDateColor">#097000</color>
+    <color name="deadlineTextColor">#3b0400</color>
+    <color name="taskBodyBorderColor">#757575</color> />
 </resources>

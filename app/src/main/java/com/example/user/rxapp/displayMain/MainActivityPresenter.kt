@@ -2,6 +2,9 @@ package com.example.user.rxapp.displayMain
 
 import android.util.Log
 import com.example.user.rxapp.data.local.LocalDataHelper
+import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
+import com.example.user.rxapp.data.local.dbRoom.TaskDo
+import com.example.user.rxapp.tools.getNextCalendarDay
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -9,6 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -19,6 +23,12 @@ class MainActivityPresenter @Inject constructor(private val db: LocalDataHelper)
     private val TAG = this.javaClass.simpleName
     private lateinit var view: MainActivityContract.View
     private val disposables = CompositeDisposable()
+    private val calendar = Calendar.getInstance()
+
+    init {
+        calendar.timeInMillis = System.currentTimeMillis()
+
+    }
 
     override fun start() {
     }
@@ -54,6 +64,7 @@ class MainActivityPresenter @Inject constructor(private val db: LocalDataHelper)
                 .subscribeOn(Schedulers.computation())
                 .map { it > 0 }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { view.setPBVisibility(true) }
                 .subscribeWith(object : DisposableSingleObserver<Boolean>() {
                     override fun onSuccess(t: Boolean) {
                         if (t) {
@@ -90,5 +101,29 @@ class MainActivityPresenter @Inject constructor(private val db: LocalDataHelper)
                     }
 
                 }))
+    }
+
+    //TODO move to AddTaskActivityPresenter
+    override fun addTask(simpleTaskDO: SimpleTaskDO) {
+        calendar[Calendar.DAY_OF_WEEK] = getNextCalendarDay(calendar)
+        disposables.add(Completable.fromAction {
+            db.addTaskToLocalDB(TaskDo(null, simpleTaskDO.taskName, simpleTaskDO.taskDescription,
+                    simpleTaskDO.isDone, Date(calendar.timeInMillis)))
+        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableCompletableObserver() {
+                    override fun onComplete() {
+                        view.showToast("Task was saved successfully")
+                    }
+
+                    override fun onError(e: Throwable) {
+                        view.showFailedSavingTaskDialog("Some problem occurred with saving task(${simpleTaskDO.taskName}, please try again.",
+                                simpleTaskDO)
+
+                    }
+
+                }))
+
     }
 }

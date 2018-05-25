@@ -9,14 +9,37 @@
     </style>
 
     <style name="TaskNameStyle" parent="android:Widget.TextView">
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">28sp</item>
         <item name="android:textColor">@color/colorTaskName</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:shadowColor">@color/colorWhite</item>
     </style>
 
-    <style name="TaskDescriptionBody" parent="android:Widget.TextView">
+    <style name="TaskDescriptionBodyStyle" parent="android:Widget.TextView">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/colorTaskBody</item>
+        <item name="android:textColor">@color/colorTaskBodyText</item>
         <item name="android:shadowColor">@color/colorWhite</item>
+        <item name="android:background">@drawable/rectangle_borders</item>
+        <item name="android:textStyle">italic</item>
     </style>
+
+    <style name="TasksTimeDateStyle" parent="android:Widget.TextView">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/timeDateColor</item>
+    </style>
+
+    <style name="TaskDeadlineTextStyle" parent="android:Widget.TextView">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/deadlineTextColor</item>
+    </style>
+
+    <style name="MainButtonsStyle" parent="Base.Widget.AppCompat.Button">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
 </resources>

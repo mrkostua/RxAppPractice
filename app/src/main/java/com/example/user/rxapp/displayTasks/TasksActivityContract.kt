@@ -8,7 +8,6 @@ import com.example.user.rxapp.data.local.dbRoom.TaskDo
  */
 interface TasksActivityContract {
     interface Presenter{
-        fun addTask(simpleTaskDO : SimpleTaskDO)
         fun displayNewestTask(delay : Long)
         fun disposeAll()
         fun takeView(view : TasksActivityContract.View)
@@ -19,6 +18,5 @@ interface TasksActivityContract {
         fun showMainButton()
         fun sendMessageWithDelay(delayInSec : Int)
         fun showToast(sms : String)
-        fun showFailedSavingTaskDialog(message : String, failedTask: SimpleTaskDO)
     }
 }

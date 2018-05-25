@@ -1,27 +1,28 @@
 package com.example.user.rxapp.displayTasks
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.View
 import com.example.user.rxapp.R
-import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
 import com.example.user.rxapp.data.local.dbRoom.TaskDo
 import com.example.user.rxapp.displayMain.MainActivity
 import com.example.user.rxapp.tools.ConstantValues
 import com.example.user.rxapp.tools.DisplayingHelper
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_tasks.*
+import java.text.DateFormat
 import javax.inject.Inject
 
 class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
     private val TAG = this.javaClass.simpleName
     @Inject
     lateinit var presenter: TasksActivityContract.Presenter
-
+    private val dateFormat = DateFormat.getDateInstance()
+    private val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
     private val handlerUpdateProgressBar = 5
     private val handler = Handler {
         if (it.what == handlerUpdateProgressBar) {
@@ -36,7 +37,6 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
         setContentView(R.layout.activity_tasks)
         initializeViews()
         presenter.takeView(this)
-
         presenter.displayNewestTask(ConstantValues.DEFAULT_DELAY_TIME_IN_SECONDS)
     }
 
@@ -45,18 +45,6 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
         val drawableForPB = pbTimeToRead.progressDrawable.mutate()
         drawableForPB.setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.SRC_IN)
         pbTimeToRead.progressDrawable = drawableForPB
-
-    }
-
-
-    //TODO delete or move to addTaskActivity
-    private fun addSomeTasks() {
-        presenter.addTask(SimpleTaskDO("Kiss some girl", "first choose the victim\n second perform unexpected attack", false))
-        presenter.addTask(SimpleTaskDO("build house on the tree", "First buy the tree \n Second by house \n Third put house on the tree", false))
-        presenter.addTask(SimpleTaskDO("build house on the tree", "First buy the tree \n Second by house \n Third put house on the tree", false))
-        presenter.addTask(SimpleTaskDO("build house on the tree", "First buy the tree \n Second by house \n Third put house on the tree", false))
-        presenter.addTask(SimpleTaskDO("Kiss some girl", "first choose the victim, second perform unexpected attack", false))
-        presenter.addTask(SimpleTaskDO("build house on the tree", "First buy the tree \n Second by house \n Third put house on the tree", false))
 
     }
 
@@ -72,6 +60,11 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
 
         tvTaskName.text = task.taskName
         tvTaskDescription.text = task.taskDescription
+
+        tvDeadline.visibility = View.VISIBLE
+        tvDate.text = dateFormat.format(task.deadLineDate)
+        tvTime.text = timeFormat.format(task.deadLineDate)
+
 
     }
 
@@ -89,18 +82,5 @@ class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
         DisplayingHelper.showToast(this, sms)
     }
 
-    override fun showFailedSavingTaskDialog(message: String, failedTask: SimpleTaskDO) {
-        DisplayingHelper.showCustomAlertDialog(this, "Failed to save Task", message,
-                DialogInterface.OnClickListener { dialog, which ->
-                    when (which) {
-                        DialogInterface.BUTTON_POSITIVE -> {
-                            presenter.addTask(failedTask)
-                            dialog.dismiss()
-                        }
-                        DialogInterface.BUTTON_NEGATIVE -> {
-                            dialog.dismiss()
-                        }
-                    }
-                })
-    }
+
 }
