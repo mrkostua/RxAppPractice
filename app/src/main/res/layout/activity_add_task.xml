@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTasksActivityBackground"
+    tools:context=".addTask.AddTaskActivity">
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/etTaskName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorWhite"
+        android:theme="@style/AddTaskNameStyle"
+        app:backgroundTint="@color/colorTaskName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/etTaskDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:gravity="top|start"
+        android:lines="6"
+        android:maxLines="15"
+        android:scrollbars="vertical"
+        android:theme="@style/AddTaskDescriptionBodyStyle"
+        app:backgroundTint="@color/colorTaskBodyText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTaskName"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <View
+        android:id="@+id/vSeparationLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
+        android:background="#000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTaskDescription" />
+
+    <TextView
+        android:id="@+id/tvDeadlineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Deadline :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vSeparationLine" />
+
+    <Button
+        android:id="@+id/bSetDate"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_buttons_date_time"
+        android:onClick="bSetDateClickListener"
+        android:text="set date"
+        android:theme="@style/AddTaskTimeDateButtonStyle"
+        app:layout_constraintBottom_toTopOf="@+id/bSetTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDeadlineText" />
+
+    <Button
+        android:id="@+id/bSetTime"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/background_buttons_date_time"
+        android:onClick="bSetTimeClickListener"
+        android:text="set time"
+        android:theme="@style/AddTaskTimeDateButtonStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bSetDate" />
+
+    <TextView
+        android:id="@+id/tvTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="40dp"
+        android:text="12 : 3 :1992"
+        android:theme="@style/TasksTimeDateStyle"
+        app:layout_constraintBottom_toTopOf="@+id/tvTextTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toEndOf="@+id/bSetDate"
+        app:layout_constraintTop_toBottomOf="@+id/vSeparationLine" />
+
+    <TextView
+        android:id="@+id/tvTextTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="13 : 02"
+        android:theme="@style/TasksTimeDateStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toEndOf="@+id/bSetTime"
+        app:layout_constraintTop_toBottomOf="@+id/tvTextDate" />
+
+    <Button
+        android:id="@+id/bSaveTask"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/background_buttons_date_time"
+        android:onClick="bSaveTaskClickListener"
+        android:text="Save task"
+        android:textColor="#7110f700"
+        android:theme="@style/AddTaskTimeDateButtonStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

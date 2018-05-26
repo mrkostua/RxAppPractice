@@ -5,11 +5,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.View
 import com.example.user.rxapp.R
 import com.example.user.rxapp.data.local.dbRoom.TaskDo
-import com.example.user.rxapp.displayMain.MainActivity
+import com.example.user.rxapp.firstScreen.MainActivity
 import com.example.user.rxapp.tools.ConstantValues
 import com.example.user.rxapp.tools.DisplayingHelper
 import dagger.android.support.DaggerAppCompatActivity

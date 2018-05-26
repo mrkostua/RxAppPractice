@@ -1,6 +1,5 @@
 package com.example.user.rxapp.displayTasks
 
-import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
 import com.example.user.rxapp.data.local.dbRoom.TaskDo
 
 /**

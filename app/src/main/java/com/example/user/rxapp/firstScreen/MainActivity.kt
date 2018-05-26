@@ -1,4 +1,4 @@
-package com.example.user.rxapp.displayMain
+package com.example.user.rxapp.firstScreen
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import com.example.user.rxapp.R
+import com.example.user.rxapp.addTask.AddTaskActivity
 import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
 import com.example.user.rxapp.displayTasks.TasksActivity
 import com.example.user.rxapp.tools.DisplayingHelper
@@ -69,33 +70,8 @@ class MainActivity : DaggerAppCompatActivity(), MainActivityContract.View {
     }
 
     fun bAddTaskClickListener(view: View) {
-        addSomeTasks()
-    }
-
-
-    //TODO delete or move to addTaskActivity
-    private fun addSomeTasks() {
-        presenter.addTask(SimpleTaskDO("Kiss some girl", "first choose the victim\n second perform unexpected attack", false))
-        presenter.addTask(SimpleTaskDO("build house on the tree", "First buy the tree \n Second by house \n Third put house on the tree", false))
-        presenter.addTask(SimpleTaskDO("BlaBla2", "First buy the tree \n Second by house \n Third put house on the tree", false))
-        presenter.addTask(SimpleTaskDO("BlaBla3", "First buy the tree \n Second by house \n Third put house on the tree", false))
-        presenter.addTask(SimpleTaskDO("BlaBla4", "First buy the tree \n Second by house \n Third put house on the tree", false))
-
-    }
-
-    override fun showFailedSavingTaskDialog(message: String, failedTask: SimpleTaskDO) {
-        DisplayingHelper.showCustomAlertDialog(this, "Failed to save Task", message,
-                DialogInterface.OnClickListener { dialog, which ->
-                    when (which) {
-                        DialogInterface.BUTTON_POSITIVE -> {
-                            presenter.addTask(failedTask)
-                            dialog.dismiss()
-                        }
-                        DialogInterface.BUTTON_NEGATIVE -> {
-                            dialog.dismiss()
-                        }
-                    }
-                })
+        //starts activity to add simple task
+        startActivity(Intent(this, AddTaskActivity::class.java))
     }
 
     private fun chooseDeleteAction(clickedPosition: Int) {

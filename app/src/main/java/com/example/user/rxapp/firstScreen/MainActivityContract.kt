@@ -1,6 +1,4 @@
-package com.example.user.rxapp.displayMain
-
-import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
+package com.example.user.rxapp.firstScreen
 
 /**
  * @author Kostiantyn Prysiazhnyi on 5/24/2018.
@@ -11,7 +9,6 @@ interface MainActivityContract {
         fun showFailedDialog(message: String)
         fun startTaskActivity()
         fun setPBVisibility(visible: Boolean)
-        fun showFailedSavingTaskDialog(message: String, failedTask: SimpleTaskDO)
     }
 
     interface Presenter {
@@ -21,6 +18,5 @@ interface MainActivityContract {
         fun deleteTodayTasks()
         fun disposeAll()
         fun startTaskActivity()
-        fun addTask(simpleTaskDO: SimpleTaskDO)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.user.rxapp.displayMain
+package com.example.user.rxapp.firstScreen
 
 import dagger.Binds
 import dagger.Module

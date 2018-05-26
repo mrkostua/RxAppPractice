@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 /**
@@ -35,8 +36,12 @@ class TasksActivityPresenter @Inject constructor(private val db: LocalDataHelper
 
     override fun displayNewestTask(delay: Long) {
         var isFirst = true
+        val emptyTask = TaskDo(null, "", "", false, Date(Calendar.getInstance().timeInMillis))
         compositeDisposable.add((db.getAllUndoneTasks()
-                .flattenAsObservable { it }
+                .flattenAsObservable {
+                    (it as ArrayList).add(emptyTask)
+                    it
+                }
                 .concatMap {
                     if (isFirst) {
                         isFirst = false

@@ -12,4 +12,4 @@ data class TaskDo(@PrimaryKey(autoGenerate = true) var id: Int? = null,
                   var taskName: String,
                   var taskDescription: String,
                   var isDone: Boolean,
-                  val deadLineDate: Date)
+                  var deadLineDate: Date)

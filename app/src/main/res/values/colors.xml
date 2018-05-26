@@ -10,5 +10,8 @@
     <color name="colorTasksActivityPB">#484646</color>
     <color name="timeDateColor">#097000</color>
     <color name="deadlineTextColor">#3b0400</color>
-    <color name="taskBodyBorderColor">#757575</color> />
+    <color name="taskBodyBorderColor">#757575</color>
+    <color name="addTaskHintColor">#edd798</color>
+    <color name="addTaskNameHintColor">#fca867</color>
+    />
 </resources>

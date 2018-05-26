@@ -42,4 +42,36 @@
         <item name="android:focusable">true</item>
     </style>
 
+    <style name="AddTaskNameStyle" parent="android:Widget.EditText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:editTextColor">@color/colorTaskName</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:hint">Task name</item>
+        <item name="android:textColorHint">@color/colorTaskName</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textCursorDrawable">@null
+        </item> <!--result in using textColor as cursor color-->
+
+    </style>
+
+    <style name="AddTaskDescriptionBodyStyle" parent="android:Widget.EditText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:hint">task description :\n1.\n2.\n3.</item>
+        <item name="android:editTextColor">@color/colorTaskBodyText</item>
+        <item name="android:textColorHint">@color/colorTaskBodyText</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textCursorDrawable">@null
+        </item> <!--result in using textColor as cursor color-->
+    </style>
+
+    <style name="AddTaskTimeDateButtonStyle" parent="android:Widget.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#bfbfbf</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+
+    </style>
+
 </resources>
