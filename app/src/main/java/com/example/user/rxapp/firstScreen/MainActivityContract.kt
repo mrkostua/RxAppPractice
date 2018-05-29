@@ -5,9 +5,10 @@ package com.example.user.rxapp.firstScreen
  */
 interface MainActivityContract {
     interface View {
-        fun showToast(msg : String)
+        fun showToast(msg: String)
         fun showFailedDialog(message: String)
         fun startTaskActivity()
+        fun startWikiSearchActivity()
         fun setPBVisibility(visible: Boolean)
     }
 
@@ -17,6 +18,6 @@ interface MainActivityContract {
         fun deleteAllTasks()
         fun deleteTodayTasks()
         fun disposeAll()
-        fun startTaskActivity()
+        fun startActivity(activityName: String)
     }
 }

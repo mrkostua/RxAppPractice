@@ -68,12 +68,13 @@
                 android:visibility="gone" />
 
             <Button
-                android:id="@+id/bEmptyAction"
+                android:id="@+id/bWikiSearch"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/background_bempty"
-                android:text="_"
+                android:text="give it a try"
+                android:onClick="bWikiSearchOnClickListener"
                 android:theme="@style/MainButtonsStyle" />
         </FrameLayout>
 

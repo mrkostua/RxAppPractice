@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".displayTasks.TasksActivity" />
-        <activity android:name=".addTask.AddTaskActivity"></activity>
+        <activity android:name=".addTask.AddTaskActivity" />
+        <activity android:name=".wikiSearch.WikiSearchActivity"></activity>
     </application>
 
 </manifest>

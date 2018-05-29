@@ -4,7 +4,9 @@ import android.util.Log
 import com.example.user.rxapp.data.local.LocalDataHelper
 import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
 import com.example.user.rxapp.data.local.dbRoom.TaskDo
+import com.example.user.rxapp.displayTasks.TasksActivity
 import com.example.user.rxapp.tools.getNextCalendarDay
+import com.example.user.rxapp.wikiSearch.WikiSearchActivity
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -51,7 +53,7 @@ class MainActivityPresenter @Inject constructor(private val db: LocalDataHelper)
                 }))
     }
 
-    override fun startTaskActivity() {
+    override fun startActivity(activityName: String) {
         disposables.add(db.getAllTasksCount()
                 .subscribeOn(Schedulers.computation())
                 .map { it > 0 }
@@ -60,7 +62,15 @@ class MainActivityPresenter @Inject constructor(private val db: LocalDataHelper)
                 .subscribeWith(object : DisposableSingleObserver<Boolean>() {
                     override fun onSuccess(t: Boolean) {
                         if (t) {
-                            view.startTaskActivity()
+                            when (activityName) {
+                                TasksActivity::class.java.simpleName -> view.startTaskActivity()
+                                WikiSearchActivity::class.java.simpleName -> view.startWikiSearchActivity()
+                                else -> {
+                                    Log.i(TAG, "startActivity : wring activityName to start : $activityName")
+                                    view.showToast("wrong action pleas try again")
+                                }
+
+                            }
                         } else {
                             view.showToast("no tasks to show :( First add some")
 

@@ -7,6 +7,8 @@ import com.example.user.rxapp.firstScreen.MainActivityModule
 import com.example.user.rxapp.injection.ActivityScope
 import com.example.user.rxapp.displayTasks.TasksActivity
 import com.example.user.rxapp.displayTasks.TasksActivityModule
+import com.example.user.rxapp.wikiSearch.WikiSearchActivity
+import com.example.user.rxapp.wikiSearch.WikiSearchModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -26,4 +28,8 @@ abstract class ActivityBindingModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [(AddTaskModule::class)])
     abstract fun getAddTaskActivity(): AddTaskActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [(WikiSearchModule::class)])
+    abstract fun getWikiSearchModule(): WikiSearchActivity
 }

@@ -40,6 +40,7 @@ class AddTaskPresenter @Inject constructor(private val db: LocalDataHelper) : Ad
                 .subscribeWith(object : DisposableCompletableObserver() {
                     override fun onComplete() {
                         view.showToast("Task was saved successfully")
+                        view.cleanViewFromText()
                     }
 
                     override fun onError(e: Throwable) {

@@ -41,6 +41,12 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     // RxJava
     implementation "android.arch.persistence.room:rxjava2:$room_version"
+    compile 'com.jakewharton.rxbinding2:rxbinding-kotlin:2.1.1'
+    compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.1.1'
+    compile 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.1.1'
+
+
+
     kapt "android.arch.persistence.room:compiler:$room_version"
 
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -48,6 +54,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    compile 'com.android.support:recyclerview-v7:27.1.1'
 
 
 }

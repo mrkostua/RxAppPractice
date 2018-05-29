@@ -10,6 +10,7 @@ import com.example.user.rxapp.addTask.AddTaskActivity
 import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
 import com.example.user.rxapp.displayTasks.TasksActivity
 import com.example.user.rxapp.tools.DisplayingHelper
+import com.example.user.rxapp.wikiSearch.WikiSearchActivity
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -41,12 +42,22 @@ class MainActivity : DaggerAppCompatActivity(), MainActivityContract.View {
         DisplayingHelper.showToast(this, msg)
     }
 
-    fun bShowTasksClickListener(view: View) {
-        presenter.startTaskActivity()
+    fun bShowTasksClickListener(v: View) {
+        presenter.startActivity(TasksActivity::class.java.simpleName)
+    }
+
+    fun bWikiSearchOnClickListener(v: View) {
+        presenter.startActivity(WikiSearchActivity::class.java.simpleName)
+
     }
 
     override fun startTaskActivity() {
         startActivity(Intent(this, TasksActivity::class.java))
+    }
+
+    override fun startWikiSearchActivity() {
+        startActivity(Intent(this, WikiSearchActivity::class.java))
+
     }
 
     fun bDeleteTasksClickListener(view: View) {

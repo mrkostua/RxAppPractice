@@ -11,6 +11,7 @@ import com.example.user.rxapp.tools.BaseView
 interface AddTaskContract {
     interface View : BaseView<Presenter> {
         fun showFailedSavingTaskDialog(message: String, failedTask: TaskDo)
+        fun cleanViewFromText()
 
     }
 

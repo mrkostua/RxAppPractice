@@ -4,10 +4,8 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.example.user.rxapp.R
-import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
 import com.example.user.rxapp.data.local.dbRoom.TaskDo
 import com.example.user.rxapp.tools.DisplayingHelper
 import dagger.android.support.DaggerAppCompatActivity
@@ -15,10 +13,13 @@ import kotlinx.android.synthetic.main.activity_add_task.*
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * @author Kostiantyn Prysiazhnyi on 5/23/2018.
+ */
 class AddTaskActivity : DaggerAppCompatActivity(), AddTaskContract.View {
     private val TAG = this.javaClass.simpleName
     private val calendar = Calendar.getInstance()
-    private lateinit var taskToSave: TaskDo
+    private val taskToSave: TaskDo
     @Inject
     public lateinit var presenter: AddTaskContract.Presenter
 
@@ -78,6 +79,13 @@ class AddTaskActivity : DaggerAppCompatActivity(), AddTaskContract.View {
             return
         }
         presenter.addTask(taskToSave)
+
+    }
+
+    override fun cleanViewFromText() {
+        etTaskName.setText("")
+        etTaskDescription.setText("")
+        taskToSave.deadLineDate = Date(calendar.timeInMillis)
 
     }
 

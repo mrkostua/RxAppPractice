@@ -16,6 +16,9 @@ import kotlinx.android.synthetic.main.activity_tasks.*
 import java.text.DateFormat
 import javax.inject.Inject
 
+/**
+ * @author Kostiantyn Prysiazhnyi on 5/24/2018.
+ */
 class TasksActivity : DaggerAppCompatActivity(), TasksActivityContract.View {
     private val TAG = this.javaClass.simpleName
     @Inject
