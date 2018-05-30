@@ -11,6 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -35,34 +36,54 @@ class WikiSearchPresenter @Inject constructor(private val db: LocalDataHelper, p
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<List<TaskDo>>() {
                     override fun onSuccess(t: List<TaskDo>) {
+                        if (t.isEmpty()) {
+                            emptyTaskListMoveToMain()
+                            return
+                        }
                         view.initializeRecycleView(t)
-
                     }
 
                     override fun onError(e: Throwable) {
                         Log.i(TAG, "start() onError : ${e.message}")
-                        view.startMainActivity()
-                        view.showToast("something went wrong, try again later")
+                        emptyTaskListMoveToMain()
                     }
                 })))
     }
 
     override fun performSearch(taskDo: TaskDo) {
-        Log.i(TAG,"performSearch()")
-        compositeDisposable.add(wikiApi.get().getContent("query","json","search","Java")
+        Log.i(TAG, "performSearch()")
+        val titlesList = ArrayList<String>()
+        compositeDisposable.add(wikiApi.get().getContent("query", "json", "search", taskDo.taskName)
+                .map {
+                    if (it.query.search.isNotEmpty()) {
+                        it.query.search.forEach { titlesList.add(it.title)}
+                    }
+                    titlesList
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableSingleObserver<WikiSearchModel.Result>() {
-                    override fun onSuccess(t: WikiSearchModel.Result) {
-                        Log.i(TAG, "performSearch " + t.query.search[2].toString())
+                .subscribeWith(object : DisposableSingleObserver<List<String>>() {
+                    override fun onSuccess(t: List<String>) {
+                        Log.i(TAG, "performSearch onSuccess")
                         view.setPBVisibility(false)
+                        if (t.isEmpty()) {
+                            view.showEmptyWikiListDialog("Try to change the title. No articles was found in wiki using words : ${taskDo.taskName}")
+                        } else {
+                            view.showDialogWithWikiTitles(t.toTypedArray())
+                        }
                     }
 
                     override fun onError(e: Throwable) {
                         Log.i(TAG, "performSearch onError ${e.message}")
                         view.setPBVisibility(false)
+                        view.showToast("Something went try again :)")
                     }
 
                 }))
+    }
+
+    private fun emptyTaskListMoveToMain() {
+        view.startMainActivity()
+        view.showToast("something went wrong, try again later")
     }
 }

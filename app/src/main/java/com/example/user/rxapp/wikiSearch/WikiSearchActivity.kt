@@ -1,5 +1,6 @@
 package com.example.user.rxapp.wikiSearch
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
@@ -63,5 +64,31 @@ class WikiSearchActivity : DaggerAppCompatActivity(), WikiSearchContract.View {
 
     override fun setPBVisibility(visible: Boolean) {
         pbLoadTasksList.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    override fun showDialogWithWikiTitles(array : Array<String>) {
+        var clickedPosition = 0
+        DisplayingHelper.showSingleChoiceAlertDialog(this, "Choose which wiki article to show",
+                array, DialogInterface.OnClickListener { d, position ->
+            clickedPosition = position
+
+        }, DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                        //TODO get content of which article
+                        dialog.dismiss()
+
+                }
+                DialogInterface.BUTTON_NEGATIVE -> dialog.dismiss()
+
+            }
+        })
+    }
+
+    override fun showEmptyWikiListDialog(message: String) {
+        DisplayingHelper.showCustomAlertDialog(this, "0 items was found", message,
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
     }
 }

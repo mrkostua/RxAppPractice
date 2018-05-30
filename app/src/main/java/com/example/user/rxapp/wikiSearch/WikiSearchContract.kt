@@ -13,6 +13,8 @@ interface WikiSearchContract {
         fun initializeRecycleView(data: List<TaskDo>)
         fun startMainActivity()
         fun setPBVisibility(visible: Boolean)
+        fun showDialogWithWikiTitles(array : Array<String>)
+        fun showEmptyWikiListDialog(message: String)
     }
 
 }

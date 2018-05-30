@@ -7,5 +7,5 @@ import com.google.gson.annotations.SerializedName
  */
 object WikiSearchModel {
     data class Result(@SerializedName("query") val query: Query)
-    data class Query(@SerializedName("search")val search: Array<SearchDo>)
+    data class Query(@SerializedName("search")val search: Array<WikiSearchDo>)
 }
