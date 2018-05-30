@@ -8,7 +8,6 @@ import dagger.Module
  */
 @Module
 abstract class WikiSearchModule {
-
     @Binds
     abstract fun provideWikiSearchPresenter(p: WikiSearchPresenter): WikiSearchContract.Presenter
 }

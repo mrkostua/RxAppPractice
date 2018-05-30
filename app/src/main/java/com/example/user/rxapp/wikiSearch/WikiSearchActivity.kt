@@ -18,11 +18,12 @@ import javax.inject.Inject
  * @author Kostiantyn Prysiazhnyi on 5/26/2018.
  */
 class WikiSearchActivity : DaggerAppCompatActivity(), WikiSearchContract.View {
-    private lateinit var tasksRecycleViewAdapter: TasksRecycleViewAdapter
     @Inject
     public lateinit var presenter: WikiSearchContract.Presenter
 
+    private lateinit var tasksRecycleViewAdapter: TasksRecycleViewAdapter
     private lateinit var rvSearchButtonDisposable: Disposable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wiki_search)
@@ -43,8 +44,7 @@ class WikiSearchActivity : DaggerAppCompatActivity(), WikiSearchContract.View {
 
 
     override fun initializeRecycleView(data: List<TaskDo>) {
-        pbLoadTasksList.visibility = View.GONE
-
+        setPBVisibility(false)
         rvListOfAllTasks.visibility = View.VISIBLE
         tasksRecycleViewAdapter = TasksRecycleViewAdapter(data)
         rvListOfAllTasks.layoutManager = LinearLayoutManager(this)
@@ -52,12 +52,16 @@ class WikiSearchActivity : DaggerAppCompatActivity(), WikiSearchContract.View {
         rvListOfAllTasks.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         rvSearchButtonDisposable = tasksRecycleViewAdapter.getSearchWikiButtonObservable().subscribe {
-            pbLoadTasksList.visibility = View.VISIBLE
+            setPBVisibility(true)
             presenter.performSearch(it)
         }
     }
 
     override fun startMainActivity() {
         startActivity(Intent(this, MainActivity::class.java))
+    }
+
+    override fun setPBVisibility(visible: Boolean) {
+        pbLoadTasksList.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }

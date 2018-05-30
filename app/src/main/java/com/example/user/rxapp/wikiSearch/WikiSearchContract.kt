@@ -12,6 +12,7 @@ interface WikiSearchContract {
     interface View : BaseView<Presenter> {
         fun initializeRecycleView(data: List<TaskDo>)
         fun startMainActivity()
+        fun setPBVisibility(visible: Boolean)
     }
 
 }

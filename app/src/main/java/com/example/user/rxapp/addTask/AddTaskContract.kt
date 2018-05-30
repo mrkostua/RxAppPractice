@@ -1,6 +1,5 @@
 package com.example.user.rxapp.addTask
 
-import com.example.user.rxapp.data.local.dbRoom.SimpleTaskDO
 import com.example.user.rxapp.data.local.dbRoom.TaskDo
 import com.example.user.rxapp.tools.BasePresenter
 import com.example.user.rxapp.tools.BaseView
