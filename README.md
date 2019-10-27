@@ -1,11 +1,12 @@
 # TasksApp
 
 ### Description 
-Simple reactive app which: 
+A simple reactive app which: 
  - displays saved tasks in 5 seconds interval using Room and RxJava2.
  - populate all tasks in a list with RecycleView and RxBinding with function to search for 
    similar to task name articles in wiki (Retrofit, MediaWiki API).
- - addTask, deleteTask.
+ - add a task, delete a task.
+ - very cool design
 
 ### Used technilogies :
   * Kotlin
